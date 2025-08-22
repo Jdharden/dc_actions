@@ -39,8 +39,9 @@ tract_crimes_02 <- tract_crimes_01 |>
   summarise(
     recent_incidents = sum(n),
   ) |>
+  mutate(GEOID = substring(GEOID, 5)) |>
   mutate(
-    GEOID = str_pad(GEOID, side = "left", pad = "0", width = 12)
+    GEOID = str_pad(GEOID, side = "left", pad = "0", width = 9)
   ) |>
   tibble() |>
   select(-geometry)
