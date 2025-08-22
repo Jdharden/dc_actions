@@ -54,4 +54,4 @@ jobs:
           SHEETS_GID: "1811629747"   # target tab from your link
           # SHEETS_TAB: "crime_map"  # optional explicit name override
         run: |
-          Rscript scripts/push_crime_map.R
+          Rscript recent_incidents.R
