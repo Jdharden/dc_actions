@@ -12,7 +12,7 @@ dc_tracts <- sf::read_sf("https://hub.arcgis.com/api/v3/datasets/95f1885eff9a4c0
 
 dc_25 <- read_csv("https://hub.arcgis.com/api/v3/datasets/74d924ddc3374e3b977e6f002478cb9b_7/downloads/data?format=csv&spatialRefId=26985&where=1%3D1", col_types = cols(CCN = col_character()))
 
-dc_data <- bind_rows(dc_21, dc_22, dc_23, dc_24, dc_25)
+dc_data <- bind_rows(dc_25)
 
 df_01 <- dc_data %>%
   separate(REPORT_DAT, c("date","time"), sep = " ") |>
