@@ -91,14 +91,14 @@ out <- cal %>%
 # - SHEETS_GID      : (optional) gid of target tab; if missing, SHEETS_TAB or "out" is used
 # - SHEETS_TAB      : (optional) explicit tab name override
 
-sa_key_path <- Sys.getenv("GCP_SA_KEY_PATH")
-if (!nzchar(sa_key_path)) stop("GCP_SA_KEY_PATH is not set.")
-gs4_auth(path = sa_key_path)
+# ======== WRITE TO GOOGLE SHEETS (overwrite region from A1) ========
+sa_key_path <- Sys.getenv("GCP_SA_KEY_PATH"); stopifnot(nzchar(sa_key_path))
+googlesheets4::gs4_auth(path = sa_key_path)
 
-ss <- as_sheets_id(Sys.getenv("SHEETS_ID"))
-if (!nzchar(as.character(ss))) stop("SHEETS_ID is not set.")
+sheets_id <- Sys.getenv("SHEETS_ID"); stopifnot(nzchar(sheets_id))
+ss <- googlesheets4::as_sheets_id(sheets_id)
 
-props <- googlesheets4::sheet_properties(ss)
+props   <- googlesheets4::sheet_properties(ss)
 gid_env <- Sys.getenv("SHEETS_GID")
 tab_env <- Sys.getenv("SHEETS_TAB")
 
@@ -112,14 +112,10 @@ sheet_name <- if (nzchar(tab_env)) {
   "out"
 }
 
-# Ensure sheet exists, then overwrite its contents
+# ensure the sheet exists (create if missing)
 if (!(sheet_name %in% googlesheets4::sheet_names(ss))) {
   googlesheets4::sheet_add(ss, sheet = sheet_name)
-} else {
-  googlesheets4::sheet_clear(ss, sheet = sheet_name)
 }
 
-googlesheets4::range_write(ss, data = out, sheet = sheet_name)
-
-
-
+# write starting at A1; cells beyond the new data remain as-is
+googlesheets4::range_write(ss, data = out, sheet = sheet_name, range = "A1")
