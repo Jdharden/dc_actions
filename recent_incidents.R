@@ -42,7 +42,8 @@ tract_crimes_02 <- tract_crimes_01 |>
   mutate(
     GEOID = str_pad(GEOID, side = "left", pad = "0", width = 12)
   ) |>
-  tibble()
+  tibble() |>
+  select(-geometry)
 
 # ---------- Write to Google Sheets (Overwrite the target tab) ----------
 sa_key_path <- Sys.getenv("GCP_SA_KEY_PATH"); stopifnot(nzchar(sa_key_path))
