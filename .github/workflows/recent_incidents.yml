@@ -1,0 +1,57 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+name: Push crime map table to Google Sheets
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/workflows/push-crime-map.yml"
+      - "scripts/push_crime_map.R"
+  schedule:
+    - cron: "15 10 * * *" # daily at 10:15 UTC
+
+jobs:
+  run-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "release"
+          use-public-rspm: true
+
+      - name: Install R packages (with system requirements)
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: |
+            any::tidyverse
+            any::lubridate
+            any::sf
+            any::googlesheets4
+
+      - name: Create service account key file
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          mkdir -p "${RUNNER_TEMP}"
+          printf "%s" "${GCP_SA_KEY}" > "${RUNNER_TEMP}/sa.json"
+
+      - name: Run script and publish to Google Sheets
+        env:
+          GCP_SA_KEY_PATH: ${{ runner.temp }}/sa.json
+          SHEETS_ID: 1E3KdEi3lsUqsgRUMH8SaVUAZ8ExcOcguJtdDxQZqDwg
+          SHEETS_GID: "1811629747"   # target tab from your link
+          # SHEETS_TAB: "crime_map"  # optional explicit name override
+        run: |
+          Rscript scripts/push_crime_map.R
