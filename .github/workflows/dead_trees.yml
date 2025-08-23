@@ -76,4 +76,4 @@ jobs:
       - name: Run the R script
         if: steps.timecheck.outputs.run == 'true'
         run: |
-          Rscript scripts/trees_daily.R
+          Rscript trees_daily.R
