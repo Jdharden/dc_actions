@@ -24,17 +24,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Run only when it is 5:00 in New York
-        id: timecheck
-        run: |
-          NY_HOUR=$(TZ=America/New_York date +%H)
-          if [ "$NY_HOUR" = "05" ]; then
-            echo "run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "It is not 5am ET. Skipping."
-          fi
-
       - name: Setup R
         if: steps.timecheck.outputs.run == 'true'
         uses: r-lib/actions/setup-r@v2
