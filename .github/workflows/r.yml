@@ -50,4 +50,4 @@ jobs:
           SHEETS_GID: "1015706095"     # tab from your link; or set SHEETS_TAB below instead
           # SHEETS_TAB: "out"          # uncomment to force a tab name
         run: |
-          Rscript cummulative_crime_dc.R
+          Rscript cumulative_crime_dc.R
