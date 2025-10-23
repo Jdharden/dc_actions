@@ -15,7 +15,7 @@ on:
       - ".github/workflows/push-crime-map.yml"
       - "scripts/push_crime_map.R"
   schedule:
-    - cron: "15 10 * * *" # daily at 10:15 UTC
+    - cron: "15 10 * * 5"  # Fridays at 10:15 UTC
 
 jobs:
   run-and-publish:
