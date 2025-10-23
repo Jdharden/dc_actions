@@ -15,7 +15,7 @@ on:
       - ".github/workflows/push-to-sheets.yml"
       - "scripts/update_sheet.R"
   schedule:
-    - cron: "5 10 * * *" # daily at 10:05 UTC
+    - cron: "15 10 * * 5"  # Fridays at 10:15 UTC
 
 jobs:
   run-and-publish:
