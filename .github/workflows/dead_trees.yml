@@ -10,10 +10,9 @@ name: Trees daily update
 
 on:
   schedule:
-    - cron: '0 9 * * *'   # 5am during EDT (UTC-4)
-    - cron: '0 10 * * *'  # 5am during EST (UTC-5)
-  workflow_dispatch:      # enables manual "Run workflow" button
-
+    - cron: '0 9 * * 1'   # 5am during EDT (UTC-4)
+  workflow_dispatch:        # enables manual "Run workflow" button
+  
 jobs:
   run-script:
     runs-on: ubuntu-latest
