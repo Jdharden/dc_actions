@@ -52,11 +52,6 @@ jobs:
           echo "GOOGLE_APPLICATION_CREDENTIALS=$HOME/gcp_key.json" >> $GITHUB_ENV
 
       - name: Run the R script
-        if: steps.decide.outputs.run == 'true'
-        run: |
-          Rscript trees_daily.R
-
-      - name: Run the R script
         if: steps.timecheck.outputs.run == 'true'
         run: |
           Rscript trees_daily.R
