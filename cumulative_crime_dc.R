@@ -19,12 +19,13 @@ dc_22 <- read_csv("https://opendata.arcgis.com/api/v3/datasets/f9cc541fc8c04106a
 dc_23 <- read_csv("https://opendata.arcgis.com/api/v3/datasets/89561a4f02ba46cca3c42333425d1b87_5/downloads/data?format=csv&spatialRefId=4326&where=1%3D1", col_types = cols(CCN = col_character()))
 dc_24 <- read_csv("https://opendata.arcgis.com/api/v3/datasets/c5a9f33ffca546babbd91de1969e742d_6/downloads/data?format=csv&spatialRefId=4326&where=1%3D1", col_types = cols(CCN = col_character()))
 dc_25 <- read_csv("https://hub.arcgis.com/api/v3/datasets/74d924ddc3374e3b977e6f002478cb9b_7/downloads/data?format=csv&spatialRefId=26985&where=1%3D1", col_types = cols(CCN = col_character()))
+dc_26 <- read_csv("https://hub.arcgis.com/api/v3/datasets/c92a2cee0111473985c389e7a0805ea5_41/downloads/data?format=csv&spatialRefId=26985&where=1%3D1", col_types = cols(CCN = col_character()))
 
 dc_data <- bind_rows(dc_16, dc_17, dc_18, dc_19, dc_20,
-          dc_21, dc_22, dc_23, dc_24, dc_25)
+          dc_21, dc_22, dc_23, dc_24, dc_25, dc_26)
 
-dc_data |>
-  count(OFFENSE)
+# dc_data |>
+#  count(OFFENSE)
 
 df_01 <- dc_data %>%
   separate(REPORT_DAT, c("date","time"), sep = " ") |>
@@ -42,8 +43,8 @@ df_01 <- dc_data %>%
   arrange(year, month)
 
 # --- scaffold with y/m/d dates ---
-base_year   <- 2025
-other_years <- c(2024, 2023, 2022, 2021, 2020, 2019, 2018)
+base_year   <- 2026
+other_years <- c(2025, 2024, 2023, 2022, 2021, 2020, 2019, 2018)
 years       <- sort(c(base_year, other_years))
 fmt         <- "%m/%d/%Y"
 
